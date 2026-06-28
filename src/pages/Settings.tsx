@@ -110,13 +110,13 @@ export const Settings: React.FC = () => {
   const handleExportData = () => {
     try {
       const data = {
-        transactions: localStorage.getItem('finance_transactions') ? JSON.parse(localStorage.getItem('finance_transactions')!) : [],
-        budgets: localStorage.getItem('finance_budgets') ? JSON.parse(localStorage.getItem('finance_budgets')!) : [],
-        goals: localStorage.getItem('finance_goals') ? JSON.parse(localStorage.getItem('finance_goals')!) : [],
-        bills: localStorage.getItem('finance_bills') ? JSON.parse(localStorage.getItem('finance_bills')!) : [],
-        categories: localStorage.getItem('finance_categories') ? JSON.parse(localStorage.getItem('finance_categories')!) : [],
-        paymentMethods: localStorage.getItem('finance_payment_methods') ? JSON.parse(localStorage.getItem('finance_payment_methods')!) : [],
-        settings: localStorage.getItem('finance_settings') ? JSON.parse(localStorage.getItem('finance_settings')!) : {}
+        transactions: localStorage.getItem('finance_transactions_v2') ? JSON.parse(localStorage.getItem('finance_transactions_v2')!) : [],
+        budgets: localStorage.getItem('finance_budgets_v2') ? JSON.parse(localStorage.getItem('finance_budgets_v2')!) : [],
+        goals: localStorage.getItem('finance_goals_v2') ? JSON.parse(localStorage.getItem('finance_goals_v2')!) : [],
+        bills: localStorage.getItem('finance_bills_v2') ? JSON.parse(localStorage.getItem('finance_bills_v2')!) : [],
+        categories: localStorage.getItem('finance_categories_v2') ? JSON.parse(localStorage.getItem('finance_categories_v2')!) : [],
+        paymentMethods: localStorage.getItem('finance_payment_methods_v2') ? JSON.parse(localStorage.getItem('finance_payment_methods_v2')!) : [],
+        settings: localStorage.getItem('finance_settings_v2') ? JSON.parse(localStorage.getItem('finance_settings_v2')!) : {}
       };
       
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -145,13 +145,13 @@ export const Settings: React.FC = () => {
         
         // Validate structure roughly
         if (json.transactions && Array.isArray(json.transactions)) {
-          localStorage.setItem('finance_transactions', JSON.stringify(json.transactions));
-          if (json.budgets) localStorage.setItem('finance_budgets', JSON.stringify(json.budgets));
-          if (json.goals) localStorage.setItem('finance_goals', JSON.stringify(json.goals));
-          if (json.bills) localStorage.setItem('finance_bills', JSON.stringify(json.bills));
-          if (json.categories) localStorage.setItem('finance_categories', JSON.stringify(json.categories));
-          if (json.paymentMethods) localStorage.setItem('finance_payment_methods', JSON.stringify(json.paymentMethods));
-          if (json.settings) localStorage.setItem('finance_settings', JSON.stringify(json.settings));
+          localStorage.setItem('finance_transactions_v2', JSON.stringify(json.transactions));
+          if (json.budgets) localStorage.setItem('finance_budgets_v2', JSON.stringify(json.budgets));
+          if (json.goals) localStorage.setItem('finance_goals_v2', JSON.stringify(json.goals));
+          if (json.bills) localStorage.setItem('finance_bills_v2', JSON.stringify(json.bills));
+          if (json.categories) localStorage.setItem('finance_categories_v2', JSON.stringify(json.categories));
+          if (json.paymentMethods) localStorage.setItem('finance_payment_methods_v2', JSON.stringify(json.paymentMethods));
+          if (json.settings) localStorage.setItem('finance_settings_v2', JSON.stringify(json.settings));
           
           toast.success('Database restored successfully! Reloading...');
           setTimeout(() => {

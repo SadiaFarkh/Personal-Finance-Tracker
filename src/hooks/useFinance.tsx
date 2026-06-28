@@ -98,14 +98,14 @@ const INITIAL_SORTING: SortOptions = {
 };
 
 export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('finance_transactions', []);
-  const [budgets, setBudgets] = useLocalStorage<Budget[]>('finance_budgets', []);
-  const [goals, setGoals] = useLocalStorage<Goal[]>('finance_goals', []);
-  const [bills, setBills] = useLocalStorage<Bill[]>('finance_bills', []);
-  const [categories, setCategories] = useLocalStorage<string[]>('finance_categories', DEFAULT_CATEGORIES);
-  const [paymentMethods, setPaymentMethods] = useLocalStorage<string[]>('finance_payment_methods', DEFAULT_PAYMENT_METHODS);
-  const [settings, setSettings] = useLocalStorage<UserSettings>('finance_settings', INITIAL_SETTINGS);
-  const [theme, setThemeState] = useLocalStorage<'dark' | 'light'>('finance_theme', 'dark');
+  const [transactions, setTransactions] = useLocalStorage<Transaction[]>('finance_transactions_v2', []);
+  const [budgets, setBudgets] = useLocalStorage<Budget[]>('finance_budgets_v2', []);
+  const [goals, setGoals] = useLocalStorage<Goal[]>('finance_goals_v2', []);
+  const [bills, setBills] = useLocalStorage<Bill[]>('finance_bills_v2', []);
+  const [categories, setCategories] = useLocalStorage<string[]>('finance_categories_v2', DEFAULT_CATEGORIES);
+  const [paymentMethods, setPaymentMethods] = useLocalStorage<string[]>('finance_payment_methods_v2', DEFAULT_PAYMENT_METHODS);
+  const [settings, setSettings] = useLocalStorage<UserSettings>('finance_settings_v2', INITIAL_SETTINGS);
+  const [theme, setThemeState] = useLocalStorage<'dark' | 'light'>('finance_theme_v2', 'dark');
   const [filters, setFilters] = useState<FilterOptions>(INITIAL_FILTERS);
   const [sorting, setSorting] = useState<SortOptions>(INITIAL_SORTING);
   const [, startTransition] = useTransition();
