@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  
+  /* Primary Theme Palette */
+  --color-brand-primary: #18181b; /* zinc-900 */
+  --color-brand-secondary: #3f3f46; /* zinc-700 */
+  --color-brand-cta: #2563eb; /* blue-600 */
+  --color-brand-cta-hover: #1d4ed8; /* blue-700 */
+  
+  /* OLED Dark Palette */
+  --color-dark-bg: #09090b; /* zinc-950 */
+  --color-dark-surface: #18181b; /* zinc-900 */
+  --color-dark-surface-hover: #27272a; /* zinc-800 */
+  --color-dark-border: #27272a; /* zinc-800 */
+  
+  /* Light Palette */
+  --color-light-bg: #fafafa; /* zinc-50 */
+  --color-light-surface: #ffffff;
+  --color-light-surface-hover: #f4f4f5; /* zinc-100 */
+  --color-light-border: #e4e4e7; /* zinc-200 */
+  
+  /* Functional colors */
+  --color-success: #10b981; /* emerald-500 */
+  --color-warning: #f59e0b; /* amber-500 */
+  --color-danger: #ef4444; /* red-500 */
+}
+
+/* Base elements styling */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--color-dark-bg);
+  color: #f4f4f5; /* zinc-100 default */
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+body.light {
+  background-color: var(--color-light-bg);
+  color: #09090b;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.4);
+}
+
+/* Glow effects */
+.glow-blue {
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.15);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+}
+
+.glow-red {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+}
+
+/* Remove spin buttons from number inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Transition utility */
+.theme-transition {
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Custom styles for Recharts Tooltip container */
+.custom-tooltip-shadow {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+}
