@@ -126,7 +126,7 @@ export const MetricsGrid: React.FC = () => {
   ];
 
   const subMetrics = [
-    { label: 'Monthly Income', value: formatCurrency(monthlyIncome), icon: ArrowUpRight, color: 'text-emerald-500' },
+    { label: 'Monthly Income', value: `${formatCurrency(monthlyIncome)} / ${formatCurrency(settings.monthlyIncomeTarget)}`, icon: ArrowUpRight, color: 'text-emerald-500' },
     { label: 'Monthly Expense', value: formatCurrency(monthlyExpenses), icon: ArrowDownRight, color: 'text-red-500' },
     { label: 'Highest Income', value: formatCurrency(highestIncomeVal), icon: TrendingUp, color: 'text-emerald-500' },
     { label: 'Highest Expense', value: formatCurrency(highestExpenseVal), icon: TrendingDown, color: 'text-red-500' },

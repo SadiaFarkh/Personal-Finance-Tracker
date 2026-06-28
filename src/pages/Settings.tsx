@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
   User, 
-  DollarSign, 
   Trash2, 
   RotateCcw, 
   ShieldAlert, 
@@ -252,11 +251,13 @@ export const Settings: React.FC = () => {
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
                   Monthly Income Target
                 </label>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+                <div className="relative flex items-center">
+                  <span className="absolute left-3 text-sm font-semibold text-slate-400">
+                    {settings.currencySymbol}
+                  </span>
                   <input
                     type="number"
-                    className={`w-full pl-9 pr-4 py-2 text-sm rounded-lg border bg-transparent text-slate-900 dark:text-slate-100 focus:outline-none ${
+                    className={`w-full pl-8 pr-4 py-2 text-sm rounded-lg border bg-transparent text-slate-900 dark:text-slate-100 focus:outline-none ${
                       errors.monthlyIncomeTarget ? 'border-red-500' : 'border-light-border dark:border-dark-border focus:border-blue-500'
                     }`}
                     {...register('monthlyIncomeTarget', { valueAsNumber: true })}
