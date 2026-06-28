@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -8,6 +8,20 @@
     <!-- Primary SEO Metadata -->
     <title>Aura Finance | Personal Finance Tracker & Wealth Dashboard</title>
     <meta name="description" content="Aura Finance is a professional-grade portfolio tracker. Track transactions, analyze income and expenses, set monthly category budgets, and follow savings goals with real-time visual analytics." />
+    
+    <!-- Inline script to prevent theme flashing on load -->
+    <script>
+      (function() {
+        const theme = localStorage.getItem('finance_theme_v2') || 'dark';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = 'dark';
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.style.colorScheme = 'light';
+        }
+      })();
+    </script>
     
     <!-- Theme & App Color -->
     <meta name="theme-color" content="#09090b" />
