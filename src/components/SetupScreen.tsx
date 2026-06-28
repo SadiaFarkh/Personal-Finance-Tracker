@@ -3,7 +3,7 @@ import { useFinance } from '../hooks/useFinance';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Coins, User, DollarSign, ArrowRight, Camera } from 'lucide-react';
+import { Coins, User, DollarSign, ArrowRight, Camera, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const CURRENCIES = [
@@ -40,7 +40,7 @@ const setupSchema = z.object({
 type SetupFormValues = z.infer<typeof setupSchema>;
 
 export const SetupScreen: React.FC = () => {
-  const { updateSettings } = useFinance();
+  const { updateSettings, theme, setTheme } = useFinance();
   const [avatar, setAvatar] = useState<string>('');
 
   const {
@@ -59,7 +59,6 @@ export const SetupScreen: React.FC = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Limit file size to 1MB to prevent localstorage overflow
       if (file.size > 1024 * 1024) {
         alert('File size exceeds 1MB limit. Please upload a smaller image.');
         return;
@@ -88,6 +87,17 @@ export const SetupScreen: React.FC = () => {
       {/* Decorative Blur Orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 dark:bg-blue-600/5 blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 dark:bg-blue-600/5 blur-[100px] pointer-events-none" />
+
+      {/* Sticky Theme Toggle Button (Top-Right) */}
+      <div className="absolute top-6 right-6 z-20">
+        <button
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          className="p-2.5 rounded-xl border border-light-border dark:border-dark-border bg-light-surface/80 dark:bg-dark-surface/60 backdrop-blur text-slate-700 dark:text-slate-200 hover:bg-light-surface dark:hover:bg-dark-surface-hover cursor-pointer transition-colors shadow-md flex items-center justify-center"
+          title={`Switch to ${theme === 'dark' ? 'Light' : 'OLED Dark'} Mode`}
+        >
+          {theme === 'dark' ? <Sun className="w-4.5 h-4.5 text-amber-500" /> : <Moon className="w-4.5 h-4.5 text-blue-500" />}
+        </button>
+      </div>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
