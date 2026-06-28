@@ -52,16 +52,6 @@ interface FinanceContextType {
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
 
-// Helper to generate dynamic mock dates relative to current date (2026-06-28)
-const getDateOffset = (daysAgo: number) => {
-  const date = new Date(2026, 5, 28); // June 28, 2026 (0-indexed month)
-  date.setDate(date.getDate() - daysAgo);
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const dd = String(date.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
-};
-
 const DEFAULT_CATEGORIES = [
   'Salary',
   'Freelance',
@@ -107,89 +97,6 @@ const INITIAL_SORTING: SortOptions = {
   order: 'desc'
 };
 
-const generateMockTransactions = (): Transaction[] => {
-  const txs: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>[] = [
-    // Income
-    { title: 'Bi-Weekly Salary', amount: 3500, type: 'income', category: 'Salary', paymentMethod: 'Bank Transfer', date: getDateOffset(0), time: '09:00', notes: 'Primary job salary' },
-    { title: 'Freelance Design Project', amount: 1200, type: 'income', category: 'Freelance', paymentMethod: 'Bank Transfer', date: getDateOffset(2), time: '14:30', notes: 'Landing page design client payment' },
-    { title: 'Dividend Payout', amount: 150, type: 'income', category: 'Investments', paymentMethod: 'Bank Transfer', date: getDateOffset(10), time: '10:15', notes: 'Quarterly dividends' },
-    { title: 'Bi-Weekly Salary', amount: 3500, type: 'income', category: 'Salary', paymentMethod: 'Bank Transfer', date: getDateOffset(14), time: '09:00', notes: 'Primary job salary' },
-    { title: 'Consulting Session', amount: 450, type: 'income', category: 'Freelance', paymentMethod: 'Bank Transfer', date: getDateOffset(16), time: '16:00', notes: '1-on-1 architecture review' },
-    { title: 'Bi-Weekly Salary', amount: 3500, type: 'income', category: 'Salary', paymentMethod: 'Bank Transfer', date: getDateOffset(28), time: '09:00', notes: 'Primary job salary' },
-
-    // Rent
-    { title: 'Monthly Apartment Rent', amount: 1800, type: 'expense', category: 'Housing/Rent', paymentMethod: 'Bank Transfer', date: getDateOffset(27), time: '08:00', notes: 'June rent payment' },
-    { title: 'Monthly Apartment Rent', amount: 1800, type: 'expense', category: 'Housing/Rent', paymentMethod: 'Bank Transfer', date: getDateOffset(58), time: '08:00', notes: 'May rent payment' },
-
-    // Groceries
-    { title: 'Whole Foods Grocery Run', amount: 184.5, type: 'expense', category: 'Groceries', paymentMethod: 'Credit Card', date: getDateOffset(1), time: '18:15', notes: 'Weekly meal prep supplies' },
-    { title: 'Organic Market Shopping', amount: 92.3, type: 'expense', category: 'Groceries', paymentMethod: 'Debit Card', date: getDateOffset(6), time: '11:00', notes: 'Fruits and vegetables' },
-    { title: 'Costco Wholesale Bulk', amount: 245.8, type: 'expense', category: 'Groceries', paymentMethod: 'Credit Card', date: getDateOffset(12), time: '15:20', notes: 'Monthly bulk items' },
-    { title: 'Trader Joe\'s Groceries', amount: 112.4, type: 'expense', category: 'Groceries', paymentMethod: 'Apple Pay', date: getDateOffset(19), time: '17:40', notes: 'Mid-week groceries' },
-
-    // Dining Out
-    { title: 'Sushi Dinner with Friends', amount: 145.0, type: 'expense', category: 'Dining Out', paymentMethod: 'Credit Card', date: getDateOffset(3), time: '20:30', notes: 'Split bill at Omakase' },
-    { title: 'Blue Bottle Coffee', amount: 6.75, type: 'expense', category: 'Dining Out', paymentMethod: 'Apple Pay', date: getDateOffset(0), time: '08:15', notes: 'Latte & croissant' },
-    { title: 'Ramen Lunch Solo', amount: 22.5, type: 'expense', category: 'Dining Out', paymentMethod: 'Cash', date: getDateOffset(5), time: '13:00', notes: 'Ramen and green tea' },
-    { title: 'Artisanal Pizzeria Dinner', amount: 68.0, type: 'expense', category: 'Dining Out', paymentMethod: 'Credit Card', date: getDateOffset(8), time: '19:30', notes: 'Friday night pizza' },
-    { title: 'Starbucks Coffee Combo', amount: 12.5, type: 'expense', category: 'Dining Out', paymentMethod: 'Apple Pay', date: getDateOffset(11), time: '09:00', notes: 'Coffee and bagel' },
-
-    // Transport
-    { title: 'Gas Station Refill', amount: 48.0, type: 'expense', category: 'Transport', paymentMethod: 'Credit Card', date: getDateOffset(2), time: '10:00', notes: 'Premium gas' },
-    { title: 'Uber Ride to Airport', amount: 65.0, type: 'expense', category: 'Transport', paymentMethod: 'Apple Pay', date: getDateOffset(9), time: '05:45', notes: 'Business trip transfer' },
-    { title: 'Gas Station Refill', amount: 42.5, type: 'expense', category: 'Transport', paymentMethod: 'Credit Card', date: getDateOffset(15), time: '17:30', notes: '' },
-    { title: 'City Metro Pass', amount: 90.0, type: 'expense', category: 'Transport', paymentMethod: 'Debit Card', date: getDateOffset(26), time: '12:00', notes: 'Monthly transit card' },
-
-    // Utilities
-    { title: 'Electric Bill (ComEd)', amount: 115.4, type: 'expense', category: 'Utilities', paymentMethod: 'Bank Transfer', date: getDateOffset(10), time: '07:30', notes: 'Electricity bill' },
-    { title: 'High-speed Fiber Internet', amount: 80.0, type: 'expense', category: 'Utilities', paymentMethod: 'Credit Card', date: getDateOffset(15), time: '08:00', notes: 'AT&T Fiber 1Gbps' },
-    { title: 'Water & Sewage Utility', amount: 45.2, type: 'expense', category: 'Utilities', paymentMethod: 'Bank Transfer', date: getDateOffset(20), time: '10:00', notes: 'Quarterly water' },
-
-    // Entertainment
-    { title: 'Netflix Subscription', amount: 22.99, type: 'expense', category: 'Entertainment', paymentMethod: 'Credit Card', date: getDateOffset(5), time: '02:00', notes: 'Premium UHD Plan' },
-    { title: 'Spotify Premium Family', amount: 16.99, type: 'expense', category: 'Entertainment', paymentMethod: 'Credit Card', date: getDateOffset(18), time: '01:00', notes: 'Monthly music plan' },
-    { title: 'Movie Theatre & Snacks', amount: 38.5, type: 'expense', category: 'Entertainment', paymentMethod: 'Debit Card', date: getDateOffset(4), time: '21:00', notes: 'Sci-fi movie premiere' },
-    { title: 'Gym Membership', amount: 75.0, type: 'expense', category: 'Entertainment', paymentMethod: 'Credit Card', date: getDateOffset(25), time: '06:00', notes: 'Equinox entry fee' },
-
-    // Shopping & Healthcare
-    { title: 'Ergonomic Office Chair', amount: 349.99, type: 'expense', category: 'Shopping', paymentMethod: 'Credit Card', date: getDateOffset(7), time: '13:10', notes: 'WFH setup upgrade' },
-    { title: 'Nike Running Shoes', amount: 130.0, type: 'expense', category: 'Shopping', paymentMethod: 'Apple Pay', date: getDateOffset(13), time: '16:45', notes: 'Pegasus 40' },
-    { title: 'Monthly Prescription Refill', amount: 35.0, type: 'expense', category: 'Healthcare', paymentMethod: 'Debit Card', date: getDateOffset(22), time: '11:15', notes: 'Vitamins & prescription' }
-  ];
-
-  return txs.map((t, idx) => ({
-    ...t,
-    id: `tx-${Date.now()}-${idx}`,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }));
-};
-
-const INITIAL_BUDGETS: Budget[] = [
-  { id: 'b-1', category: 'Groceries', limit: 600 },
-  { id: 'b-2', category: 'Dining Out', limit: 400 },
-  { id: 'b-3', category: 'Transport', limit: 300 },
-  { id: 'b-4', category: 'Entertainment', limit: 200 },
-  { id: 'b-5', category: 'Shopping', limit: 500 }
-];
-
-const INITIAL_GOALS = (): Goal[] => [
-  { id: 'g-1', name: 'Emergency Fund', targetAmount: 15000, currentAmount: 8500, targetDate: '2026-12-31', createdAt: new Date().toISOString() },
-  { id: 'g-2', name: 'Tokyo Vacation 2027', targetAmount: 6000, currentAmount: 1800, targetDate: '2027-04-15', createdAt: new Date().toISOString() },
-  { id: 'g-3', name: 'New Electric Car', targetAmount: 45000, currentAmount: 15000, targetDate: '2028-06-30', createdAt: new Date().toISOString() }
-];
-
-const INITIAL_BILLS = (): Bill[] => [
-  { id: 'bill-1', title: 'Adobe Creative Cloud', amount: 54.99, dueDate: getDateOffset(-2), category: 'Utilities', status: 'pending' },
-  { id: 'bill-2', title: 'Car Insurance (GEICO)', amount: 145.0, dueDate: getDateOffset(-5), category: 'Transport', status: 'paid' },
-  { id: 'bill-3', title: 'High-speed Fiber Internet', amount: 80.0, dueDate: getDateOffset(-15), category: 'Utilities', status: 'paid' },
-  { id: 'bill-4', title: 'Rent Invoice', amount: 1800.0, dueDate: getDateOffset(-27), category: 'Housing/Rent', status: 'paid' },
-  { id: 'bill-5', title: 'Gym Membership', amount: 75.0, dueDate: getDateOffset(-25), category: 'Entertainment', status: 'paid' },
-  { id: 'bill-6', title: 'Electric Bill', amount: 125.0, dueDate: getDateOffset(-10), category: 'Utilities', status: 'paid' },
-  { id: 'bill-7', title: 'Cell Phone Plan (Verizon)', amount: 85.0, dueDate: getDateOffset(-22), category: 'Utilities', status: 'paid' },
-  { id: 'bill-8', title: 'AWS Cloud Hosting', amount: 12.4, dueDate: getDateOffset(-20), category: 'Utilities', status: 'paid' }
-];
-
 export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [transactions, setTransactions] = useLocalStorage<Transaction[]>('finance_transactions', []);
   const [budgets, setBudgets] = useLocalStorage<Budget[]>('finance_budgets', []);
@@ -199,7 +106,6 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [paymentMethods, setPaymentMethods] = useLocalStorage<string[]>('finance_payment_methods', DEFAULT_PAYMENT_METHODS);
   const [settings, setSettings] = useLocalStorage<UserSettings>('finance_settings', INITIAL_SETTINGS);
   const [theme, setThemeState] = useLocalStorage<'dark' | 'light'>('finance_theme', 'dark');
-  const [seeded, setSeeded] = useLocalStorage<boolean>('finance_seeded', false);
   const [filters, setFilters] = useState<FilterOptions>(INITIAL_FILTERS);
   const [sorting, setSorting] = useState<SortOptions>(INITIAL_SORTING);
   const [, startTransition] = useTransition();
@@ -215,25 +121,6 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       root.style.colorScheme = 'light';
     }
   }, [theme]);
-
-  // Seeding initial mock data if empty and first time
-  useEffect(() => {
-    if (!seeded) {
-      if (transactions.length === 0) {
-        setTransactions(generateMockTransactions());
-      }
-      if (budgets.length === 0) {
-        setBudgets(INITIAL_BUDGETS);
-      }
-      if (goals.length === 0) {
-        setGoals(INITIAL_GOALS());
-      }
-      if (bills.length === 0) {
-        setBills(INITIAL_BILLS());
-      }
-      setSeeded(true);
-    }
-  }, [seeded, transactions.length, budgets.length, goals.length, bills.length, setTransactions, setBudgets, setGoals, setBills, setSeeded]);
 
   // Sync bills with payment status of transactions dynamically (e.g. if paid via transactions, mark as paid)
   // Or handle paying bills manually: when paid, we insert a transaction and update the bill.
@@ -457,18 +344,18 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, [setThemeState]);
 
   const resetToMockData = useCallback(() => {
-    setTransactions(generateMockTransactions());
-    setBudgets(INITIAL_BUDGETS);
-    setGoals(INITIAL_GOALS());
-    setBills(INITIAL_BILLS());
+    setTransactions([]);
+    setBudgets([]);
+    setGoals([]);
+    setBills([]);
     setCategories(DEFAULT_CATEGORIES);
     setPaymentMethods(DEFAULT_PAYMENT_METHODS);
-    // Keep username and currency, reset monthly target to default mock size
+    // Keep username and currency, preserve monthly income target
     setSettings((prev) => ({
       ...prev,
-      monthlyIncomeTarget: 8000
+      monthlyIncomeTarget: prev.monthlyIncomeTarget || 5000
     }));
-    toast.success('Finance tracker seeded with clean mock data!');
+    toast.success('Finance ledger and records reset successfully!');
   }, [setTransactions, setBudgets, setGoals, setBills, setCategories, setPaymentMethods, setSettings]);
 
   const clearAllData = useCallback(() => {
@@ -479,9 +366,8 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setCategories(DEFAULT_CATEGORIES);
     setPaymentMethods(DEFAULT_PAYMENT_METHODS);
     setSettings(INITIAL_SETTINGS);
-    setSeeded(true);
     toast.success('All local storage data cleared.');
-  }, [setTransactions, setBudgets, setGoals, setBills, setCategories, setPaymentMethods, setSettings, setSeeded]);
+  }, [setTransactions, setBudgets, setGoals, setBills, setCategories, setPaymentMethods, setSettings]);
 
   return (
     <FinanceContext.Provider value={{

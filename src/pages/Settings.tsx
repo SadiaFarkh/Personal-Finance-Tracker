@@ -373,18 +373,18 @@ export const Settings: React.FC = () => {
             </h3>
 
             <div className="space-y-4">
-              {/* Load Mock Data */}
+              {/* Reset Data */}
               <div className="space-y-1 text-xs">
-                <span className="font-bold text-slate-800 dark:text-slate-200">Reseed Database</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">Reset Ledger & Records</span>
                 <p className="text-[10px] text-slate-500 leading-normal font-semibold">
-                  Resets all local records and generates dynamic, rich finance mock entries.
+                  Resets all transactions, budgets, goals, and bills, while preserving your profile settings.
                 </p>
                 <button
                   onClick={resetToMockData}
                   className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 cursor-pointer transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Reset to Mock Data</span>
+                  <span>Reset Financial Data</span>
                 </button>
               </div>
 
